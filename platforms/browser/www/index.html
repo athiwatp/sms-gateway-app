@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/vuetify.min.css">
+    <title>Android SMS Gateway</title>
+</head>
+
+<body>
+    <v-app id="smsApp">
+        <v-toolbar>
+            <v-toolbar-title class="white--text">SMS Gateway</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon light @click.native="reconnect">
+                <v-icon>refresh</v-icon>
+            </v-btn>
+        </v-toolbar>
+        <main>
+            <v-container fluid>
+                <v-list>
+                    <v-list-item v-for="(r, i) in orderBy(requests, 'timestamp', -1)" v-bind:key="i">
+                        <v-list-tile avatar ripple>
+                            <v-list-tile-action>
+                                <v-icon class="pink--text">{{ r.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>{{ r.body | lowercase }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        <v-list-tile>
+                    </v-list-item>
+                </v-list>
+                <v-snackbar
+                    :timeout="3000"
+                    :bottom="true"
+                    v-model="snackbar"
+                    >
+                    Connected
+                    <v-btn flat class="pink--text" @click.native="snackbar = false">Close</v-btn>
+                </v-snackbar>
+            </v-container>
+        </main>
+    </v-app>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/vuetify.min.js"></script>
+    <script type="text/javascript" src="js/vue2-filters.min.js"></script>
+    <script type="text/javascript" src="js/socket.io.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>
